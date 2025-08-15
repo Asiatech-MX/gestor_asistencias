@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Ejecutivo de Asistencia - 31pte</title>
+    <link rel="icon" href="../img/logo.png" type="image/png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/manager_inicio.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="logo">
+        <h1>Panel de Administración</h1>
+      </div>
+      <nav class="menu">
+        <ul class="main-menu">
+          <li class="dropdown">
+            <a href="#" class="menu-item">
+              <i class="fas fa-chart-bar"></i> Panel de gráficas
+              <i class="dropdown-icon fas fa-caret-down"></i>
+            </a>
+            <ul class="submenu">
+              <li>
+                <a href="#"><i class="fas fa-globe"></i> General</a>
+              </li>
+              <li>
+                <a href="31pte.html"
+                  ><i class="fas fa-map-marker-alt"></i> 31pte</a
+                >
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Villas</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Nave</a>
+              </li>
+              <li>
+                <a href="#"><i class="fas fa-map-marker-alt"></i> Río Blanco</a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a href="gestion_empleados.html" class="menu-item"
+              ><i class="fas fa-users"></i> Gestión de empleados</a
+            >
+          </li>
+          <li>
+            <a href="gestion_usuarios.html" class="menu-item"
+              ><i class="fas fa-users-cog"></i> Gestión de usuarios</a
+            >
+          </li>
+          <li>
+            <a href="{% url 'logout' %}" class="menu-item" style="
+                                                                display: block;
+                                                                padding: 10px 15px;
+                                                                color: inherit;
+                                                                text-decoration: none;">
+              <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="header">
+      <h1>Dashboard Ejecutivo de Asistencia</h1>
+      <p>Sucursal: 31PTE | Período: 2025-07-01 - 2025-07-28</p>
+    </div>
+    <div class="container">
+      <div class="tabs">
+        <button class="tab-button active" onclick="openTab(event, 'dashboard')">
+          Resumen Ejecutivo
+        </button>
+        <button class="tab-button" onclick="openTab(event, 'employee-table')">
+          Detalle por Empleado
+        </button>
+      </div>
+      <div id="dashboard" class="tab-content active">
+        <div class="metrics-grid">
+          <div class="metric-card attendance">
+            <h3>Tasa de Asistencia</h3>
+            <div class="metric-value" id="attendanceRate">89.2%</div>
+            <div class="metric-subtitle">Horas trabajadas vs planificadas</div>
+          </div>
+          <div class="metric-card deviation">
+            <h3>Desviación Media Horaria</h3>
+            <div class="metric-value" id="avgDeviationHours">±0.0 h</div>
+            <div class="metric-subtitle">Promedio de dif. de horas</div>
+          </div>
+          <div class="metric-card punctuality">
+            <h3>Índice de Puntualidad</h3>
+            <div class="metric-value" id="punctualityRate">65%</div>
+            <div class="metric-subtitle">Empleados puntuales</div>
+          </div>
+          <div class="metric-card absences">
+            <h3>Días Perdidos</h3>
+            <div class="metric-value" id="totalLostDays">27</div>
+            <div class="metric-subtitle">5.2% de capacidad perdida</div>
+          </div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Tendencia de Asistencia del Período</div>
+          <div id="dailyTrendChart" class="chart"></div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Eficiencia de Recursos Humanos</div>
+          <div id="efficiencyChart" class="chart"></div>
+        </div>
+        <div class="chart-container">
+          <div class="chart-title">Análisis de Impacto por Ausencias</div>
+          <div id="absenceImpactChart" class="chart"></div>
+        </div>
+      </div>
+      <div id="employee-table" class="tab-content">
+        <div class="table-section">
+          <div class="chart-title">Análisis Individual</div>
+          <div class="controls">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Buscar empleado..."
+              onkeyup="filterTable()"
+              style="padding: 10px; width: 300px"
+            />
+          </div>
+          <table class="employee-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Empleado</th>
+                <th>Hrs. Trabajadas</th>
+                <th>Hrs. Planificadas</th>
+                <th>Variación</th>
+                <th>Retardos</th>
+                <th>Ausencias</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="tooltip"></div>
+    <script>
+      // Desactivar caché
+      if (window.history && window.history.pushState) {
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+          window.history.go(1);
+        };
+      }
+    </script>
+    <script src="{% static 'js/menu.js' %}"></script>
+    <script src="{% static 'js/manager_inicio.js' %}"></script>
+  </body>
+</html>

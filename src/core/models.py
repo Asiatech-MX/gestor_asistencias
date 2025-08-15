@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Empleado(models.Model):
@@ -8,7 +9,10 @@ class Empleado(models.Model):
     apellido_paterno = models.CharField(max_length=100, db_column='apellido_paterno')
     apellido_materno = models.CharField(max_length=100, null=True, blank=True, db_column='apellido_materno')
     tiene_horario_asignado = models.BooleanField(default=False, db_column='tiene_horario_asignado')
-
+    # Relación con usuario de Django
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    def __str__(self):
+        return f"{self.nombre} {self.apellido_paterno}"
     class Meta:
         db_table = 'Empleados'
         # Basado en la definición original :contentReference[oaicite:6]{index=6}
