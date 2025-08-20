@@ -1,0 +1,260 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Empleados - Asiatech</title>
+    <link rel="icon" href="../img/logo.png" type="image/png" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/gestion_empleados.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="logo">
+        <h1>Panel de Administración</h1>
+      </div>
+      <nav class="menu">
+        <ul class="main-menu">
+                <li><a href="{% url 'admin-gestion-empleados' %}" class="menu-item"><i class="fas fa-users"></i> Gestión de empleados</a></li>
+                {#<li><a href="{% url 'admin-gestion-usuarios' %}" class="menu-item"><i class="fas fa-users-cog"></i> Gestión de usuarios</a></li>#}
+                <li>
+                    <a href="{% url 'logout' %}" class="menu-item" style="
+                                                                display: block;
+                                                                padding: 10px 15px;
+                                                                color: inherit;
+                                                                text-decoration: none;">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </a>
+                </li>
+        </ul>
+      </nav>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="main-container">
+      <div class="header">
+        <div class="logo">
+          <i class="fas fa-laptop-code"></i>
+          <span>Asiatech</span>
+        </div>
+        <h1>Gestión de Empleados</h1>
+        <div class="header-actions">
+          <button id="btnExportExcel" class="btn btn-success">
+            <i class="fas fa-file-excel"></i> Exportar Excel
+          </button>
+          <button id="btnExportPDF" class="btn btn-danger">
+            <i class="fas fa-file-pdf"></i> Exportar PDF
+          </button>
+        </div>
+      </div>
+
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Buscar empleados..." />
+        <i class="fas fa-search"></i>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Apellidos</th>
+              <th>Email</th>
+              <th>Sucursal</th>
+              <th>Horario</th>
+              <th>Código Frappe</th>
+              <th>Código Checador</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="employeeTableBody">
+            <tr>
+              <td colspan="9" style="text-align: center">No hay datos</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BOTONES FLOTANTES -->
+    <button id="btnAdd" class="floating-btn">
+      <i class="fas fa-plus"></i>
+    </button>
+    <button id="btnImport" class="btn-import">
+      <i class="fas fa-file-import"></i>
+    </button>
+    <button id="btnClear" class="btn-clear">
+      <i class="fas fa-broom"></i>
+    </button>
+
+    <!-- MODAL AGREGAR/EDITAR EMPLEADO ------------------------------------------------------------------------------------------------------->
+    <div id="employeeModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Agregar Empleado</h2>
+        <form id="employeeForm">
+          <input type="hidden" id="employeeId" />
+          <div class="form-row">
+            <div class="form-group">
+              <label for="codigoFrappe">Código Frappe*</label>
+              <input type="text" id="codigoFrappe" required />
+            </div>
+            <div class="form-group">
+              <label for="codigoChecador">Código Checador*</label>
+              <input type="text" id="codigoChecador" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="nombre">Nombre*</label>
+              <input type="text" id="nombre" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="primerApellido">Primer Apellido*</label>
+              <input type="text" id="primerApellido" required />
+            </div>
+            <div class="form-group">
+              <label for="segundoApellido">Segundo Apellido</label>
+              <input type="text" id="segundoApellido" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="email">Email*</label>
+              <input type="email" id="email" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="sucursal">Sucursal*</label>
+              <select id="sucursal" name="sucursal" required>
+                <option value="">Seleccione...</option>
+                {% for sucursal in sucursales %}
+                  <option value="{{ sucursal.sucursal_id }}">{{ sucursal.nombre_sucursal }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="horario">Horario*</label>
+              <select id="horario" name="horario" required>
+                <option value="">Seleccione...</option>
+                {% for h in horarios %}
+                  <option value="{{ h.horario_id }}">
+                    {{ h.hora_entrada|time:"H:i" }} - {{ h.hora_salida|time:"H:i" }}
+                  </option>
+                {% endfor %}
+              </select>
+              <!-- BOTÓN AGREGAR NUEVO HORARIO -->
+              <button
+                type="button"
+                id="btnAddSchedule"
+                class="btn btn-primary"
+                style="margin-top: 8px; width: 100%"
+              >
+                <i class="fas fa-plus"></i> Agregar nuevo horario
+              </button>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+            <button type="button" class="btn btn-cancel">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL AGREGAR HORARIO ----------------------------------------------------------------------------------------------------------------->
+    <div id="scheduleModal" class="modal">
+      <div class="modal-content small">
+        <span class="close">&times;</span>
+        <h2>Agregar Horario</h2>
+        <form id="scheduleForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="horaEntrada">Hora de entrada*</label>
+              <input type="time" id="horaEntrada" required />
+            </div>
+            <div class="form-group">
+              <label for="horaSalida">Hora de salida*</label>
+              <input type="time" id="horaSalida" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <label>Cruza noche:</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input type="radio" name="cruzaNoche" value="si" /> Sí
+              </label>
+              <label class="radio-option">
+                <input type="radio" name="cruzaNoche" value="no" /> No
+              </label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="descripcionHorario">Descripción (opcional)</label>
+              <input type="text" id="descripcionHorario" />
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-save"></i> Guardar
+            </button>
+            <button type="button" id="cancelAddSchedule" class="btn btn-cancel">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL CONFIRMAR ELIMINACIÓN -->
+    <div id="confirmModal" class="modal">
+      <div class="modal-content small">
+        <h2>Confirmar Eliminación</h2>
+        <p>¿Estás seguro de que deseas eliminar este empleado?</p>
+        <div class="form-actions">
+          <button id="confirmDelete" class="btn btn-danger">
+            <i class="fas fa-trash-alt"></i> Eliminar
+          </button>
+          <button id="cancelDelete" class="btn btn-cancel">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Agregar estas líneas antes de tus scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script>
+      // Inicializar jsPDF
+      const { jsPDF } = window.jspdf;
+    </script>
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+    <script src="{% static 'js/menu.js' %}"></script>
+    <script src="{% static 'js/gestion_empleados.js' %}"></script>
+  </body>
+</html>

@@ -32,7 +32,7 @@
           <input type="email" id="email" name="email" required />
           <i class="fa-solid fa-envelope"></i>
           {% if error %}
-            <span class="error-message">{{ error }}</span>
+          <span class="messages">{{ error }}</span>
           {% endif %}
         </div>
 
@@ -46,9 +46,13 @@
         <button type="submit" class="login-button">Iniciar Sesión</button>
 
         <div class="bottom-links">
-          <div class="create-account">
-            ¿No tienes una cuenta? <a href="crear_cuenta.html">Administrador</a>
+          {% if messages %}
+          <div class="messages">
+            {% for message in messages %}
+            <p class="error">{{ message }}</p>
+            {% endfor %}
           </div>
+          {% endif %}
         </div>
       </form>
     </div>
