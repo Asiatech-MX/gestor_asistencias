@@ -7,14 +7,14 @@
 }
 
 body {
-    background-color: #f5f7fa;
-    color: #333;
+    background-color: #f5f5f5; /* Gris perla */
+    color: #212121; /* Gris carbón */
     padding-top: 70px;
 }
 
 /* Navbar fija */
 .navbar {
-    background-color: #75bae2;
+    background-color: #d32f2f; /* Rojo primario */
     color: white;
     padding: 12px 30px;
     display: flex;
@@ -25,7 +25,7 @@ body {
     top: 0;
     left: 0;
     z-index: 1000;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Negro con transparencia */
 }
 
 .logo h1 {
@@ -57,8 +57,8 @@ body {
 
 .menu-item:hover,
 .dropdown.active > .menu-item {
-    background-color: #5ba6d1;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    background-color: #b71c1c; /* Rojo más oscuro */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3); /* Negro con transparencia */
 }
 
 .menu-item i:first-child {
@@ -84,9 +84,9 @@ body {
     top: 100%;
     left: 0;
     background-color: white;
-    border: 1px solid #75bae2;
+    border: 1px solid #d32f2f; /* Rojo primario */
     min-width: 200px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3); /* Negro con transparencia */
     border-radius: 6px;
     z-index: 1001;
     padding: 6px 0;
@@ -106,7 +106,7 @@ body {
 }
 
 .submenu a {
-    color: #333;
+    color: #212121; /* Gris carbón */
     padding: 8px 20px;
     display: flex;
     align-items: center;
@@ -116,13 +116,13 @@ body {
 }
 
 .submenu a:hover {
-    background-color: #e2f1f9;
-    color: #1d6fa5;
+    background-color: #ffebee; /* Rojo muy claro */
+    color: #b71c1c; /* Rojo más oscuro */
 }
 
 .submenu i {
     margin-right: 10px;
-    color: #75bae2;
+    color: #d32f2f; /* Rojo primario */
     font-size: 14px;
 }
 
@@ -138,16 +138,16 @@ body {
     padding: 30px;
     max-width: 800px;
     margin: 0 auto;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2); /* Negro con transparencia */
 }
 
 .welcome-box h2 {
-    color: #2c3e50;
+    color: #212121; /* Gris carbón */
     margin-bottom: 15px;
 }
 
 .welcome-box p {
-    color: #7f8c8d;
+    color: #757575; /* Gris perla */
     line-height: 1.6;
 }
 

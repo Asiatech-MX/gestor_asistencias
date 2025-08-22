@@ -1,23 +1,23 @@
 body { 
   font-family: 'Segoe UI', system-ui, sans-serif; 
-  background: #f8f9fa; 
-  color: #212529; 
+  background: #f5f5f5; /* Gris perla */
+  color: #212121; /* Gris carbón */
 }
 .header { 
   background: white; 
   padding: 2rem; 
   text-align: center; 
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08); 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2); /* Negro con transparencia */
   margin-bottom: 2rem; 
-  border-bottom: 3px solid #0066cc; 
+  border-bottom: 3px solid #d32f2f; /* Rojo primario */
 }
 .header h1 { 
-  color: #0066cc; 
+  color: #d32f2f; /* Rojo primario */
   font-size: 2.2rem; 
   margin-bottom: 0.5rem; 
 }
 .header p { 
-  color: #6c757d; 
+  color: #757575; /* Gris perla */
   font-size: 1.1rem; 
 }
 .container { 
@@ -36,14 +36,14 @@ body {
   font-size: 1rem; 
   font-weight: 600; 
   cursor: pointer; 
-  border: 2px solid #0066cc; 
+  border: 2px solid #d32f2f; /* Rojo primario */
   background: white; 
-  color: #0066cc; 
+  color: #d32f2f; /* Rojo primario */
   border-radius: 8px; 
   transition: all 0.2s ease; 
 }
 .tab-button.active { 
-  background: #0066cc; 
+  background: #d32f2f; /* Rojo primario */
   color: white; 
 }
 .tab-content { 
@@ -63,11 +63,11 @@ body {
   border-radius: 12px; 
   padding: 2rem; 
   text-align: center; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Negro con transparencia */
   border-left: 4px solid; 
 }
 .metric-card h3 { 
-  color: #495057; 
+  color: #212121; /* Gris carbón */
   font-size: 0.9rem; 
   margin-bottom: 1rem; 
   text-transform: uppercase; 
@@ -79,62 +79,63 @@ body {
 }
 .metric-subtitle { 
   font-size: 0.8rem; 
-  color: #6c757d; 
+  color: #757575; /* Gris perla */
 }
 .metric-card.attendance { 
-  border-left-color: #28a745; 
+  border-left-color: #d32f2f; /* Rojo primario */
 } 
 .metric-card.attendance .metric-value { 
-  color: #28a745; 
+  color: #d32f2f; /* Rojo primario */
 }
 .metric-card.deviation { 
-  border-left-color: #ff6b35; 
+  border-left-color: #757575; /* Gris perla */
 } 
 .metric-card.deviation .metric-value { 
-  color: #ff6b35; 
+  color: #757575; /* Gris perla */
 }
 .metric-card.punctuality { 
-  border-left-color: #ffc107; 
+  border-left-color: #bdbdbd; /* Gris más claro */
 } 
 .metric-card.punctuality .metric-value { 
-  color: #ffc107; 
+  color: #bdbdbd; /* Gris más claro */
 }
 .metric-card.absences { 
-  border-left-color: #dc3545; 
+  border-left-color: #212121; /* Gris carbón */
 } 
 .metric-card.absences .metric-value { 
-  color: #dc3545; 
+  color: #212121; /* Gris carbón */
 }
 .chart-container { 
   background: white; 
   border-radius: 12px; 
   padding: 2rem; 
   margin-bottom: 2rem; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Negro con transparencia */
 }
 .chart-title { 
   font-size: 1.4rem; 
   font-weight: 700; 
   margin-bottom: 1.5rem; 
+  color: #212121; /* Gris carbón */
 }
 .chart svg { 
   width: 100%; 
   height: auto; 
 }
 .axis path, .axis .domain { 
-  stroke: #dee2e6; 
+  stroke: #e0e0e0; /* Gris perla */
 }
 .axis .tick text { 
-  fill: #6c757d; 
+  fill: #757575; /* Gris perla */
 }
 .grid line { 
-  stroke: #f1f3f4; 
+  stroke: #f5f5f5; /* Gris perla más claro */
   stroke-dasharray: 2,2; 
 }
 .tooltip { 
   position: absolute; 
   padding: 12px; 
-  background: rgba(33,37,41,0.95); 
+  background: rgba(33,37,41,0.95); /* Gris carbón con transparencia */
   color: white; 
   border-radius: 6px; 
   pointer-events: none; 
@@ -146,7 +147,7 @@ body {
   background: white; 
   border-radius: 12px; 
   padding: 2rem; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08); 
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); /* Negro con transparencia */
 }
 .controls { 
   display: flex; 
@@ -156,25 +157,29 @@ body {
 .search-box input, .filter-select { 
   width: 100%; 
   padding: 12px 16px; 
-  border: 2px solid #e9ecef; 
+  border: 2px solid #e0e0e0; /* Gris perla */
   border-radius: 8px; 
+  background: #ffffff; /* Blanco */
+  color: #212121; /* Gris carbón */
 }
 .employee-table { 
   width: 100%; 
   border-collapse: collapse; 
 }
 .employee-table th { 
-  background: #f8f9fa; 
+  background: #f5f5f5; /* Gris perla */
   padding: 1rem; 
   text-align: left; 
+  color: #212121; /* Gris carbón */
 }
 .employee-table td { 
   padding: 1rem; 
-  border-bottom: 1px solid #e9ecef; 
+  border-bottom: 1px solid #e0e0e0; /* Gris perla */
+  color: #212121; /* Gris carbón */
 }
 .positive { 
-  color: #28a745; 
+  color: #d32f2f; /* Rojo primario */
 } 
 .negative { 
-  color: #dc3545; 
+  color: #212121; /* Gris carbón */
 }
