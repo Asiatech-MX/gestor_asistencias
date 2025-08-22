@@ -80,3 +80,5 @@ staticfiles/
 # Others
 *.swp
 *.swo
+
+.serena/
