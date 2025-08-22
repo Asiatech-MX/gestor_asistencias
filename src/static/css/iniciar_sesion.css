@@ -6,8 +6,7 @@
         }
 
         body {
-            background:#75bae2;
-;
+            background: #d32f2f; /* Rojo primario */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -18,9 +17,9 @@
         .login-container {
             width: 100%;
             max-width: 450px;
-            background: #fff;
+            background: #ffffff; /* Blanco */
             border-radius: 20px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3); /* Negro */
             padding: 40px;
             text-align: center;
         }
@@ -30,7 +29,7 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 30px;
-            color: #007bff;
+            color: #d32f2f; /* Rojo primario */
             font-size: 24px;
             font-weight: bold;
         }
@@ -43,11 +42,11 @@
         h2 {
             font-size: 28px;
             margin-bottom: 10px;
-            color: #333;
+            color: #212121; /* Gris carbón */
         }
 
         .subtitle {
-            color: #666;
+            color: #757575; /* Gris perla */
             margin-bottom: 30px;
         }
 
@@ -60,37 +59,44 @@
         .input-group label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
+            color: #212121; /* Gris carbón */
             font-weight: bold;
         }
 
         .input-group input {
             width: 100%;
             padding: 15px 45px 15px 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #e0e0e0; /* Gris perla */
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s;
+            background: #ffffff; /* Blanco */
+            color: #212121; /* Gris carbón */
         }
 
         .input-group input:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+            border-color: #d32f2f; /* Rojo primario */
+            box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.2); /* Rojo primario con transparencia */
             outline: none;
+        }
+
+        .input-group input.error {
+            border: 1px solid #d32f2f; /* Rojo primario */
+            animation: shake 0.3s ease-in-out;
         }
 
         .input-group i {
             position: absolute;
             right: 15px;
             top: 40px;
-            color: #999;
+            color: #757575; /* Gris perla */
             cursor: pointer;
         }
 
         .login-button {
             width: 100%;
             padding: 15px;
-            background: #007bff;
+            background: #d32f2f; /* Rojo primario */
             color: white;
             border: none;
             border-radius: 8px;
@@ -99,13 +105,13 @@
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+            box-shadow: 0 4px 15px rgba(211, 47, 47, 0.3); /* Rojo primario */
         }
 
         .login-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 123, 255, 0.4);
-            background: #0069d9;
+            box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4); /* Rojo primario */
+            background: #b71c1c; /* Rojo más oscuro */
         }
 
         .bottom-links {
@@ -116,12 +122,12 @@
         }
 
         .forgot-password, .create-account {
-            color: #666;
+            color: #757575; /* Gris perla */
             font-size: 14px;
         }
 
         .forgot-password a, .create-account a {
-            color: #007bff;
+            color: #d32f2f; /* Rojo primario */
             font-weight: bold;
             text-decoration: none;
         }
@@ -130,21 +136,66 @@
             text-decoration: underline;
         }
 
-        /* ... Tu CSS original ... */
+        .error-message {
+            color: #d32f2f; /* Rojo primario */
+            font-size: 13px;
+            margin-top: 5px;
+            padding-left: 2px;
+            transition: all 0.3s ease;
+            display: block;
+        }
 
-.input-group input.error {
-    border: 1px solid #ff4444;
-    animation: shake 0.3s ease-in-out;
-}
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            font-size: 14px;
+        }
 
-.error-message {
-    display: none;
-    color: #ff4444;
-    font-size: 13px;
-    margin-top: 5px;
-    padding-left: 2px;
-    transition: all 0.3s ease;
-}
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input {
+            width: auto;
+        }
+
+        .remember-me label {
+            color: #212121; /* Gris carbón */
+            font-weight: normal;
+            margin: 0;
+        }
+
+        .forgot-password-link {
+            color: #d32f2f; /* Rojo primario */
+            text-decoration: none;
+        }
+
+        .forgot-password-link:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-4px); }
+            40%, 80% { transform: translateX(4px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .remember-forgot {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .forgot-password-link {
+                align-self: flex-end;
+            }
+        }
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }

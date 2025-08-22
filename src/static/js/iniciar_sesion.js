@@ -1,10 +1,11 @@
-/*document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     console.log("DOM cargado - Validación login activa");
 
     const form = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const togglePassword = document.querySelector('.toggle-password');
+    const rememberMeCheckbox = document.getElementById('remember');
 
     // Mostrar error
     const showError = (input, message) => {
@@ -62,4 +63,19 @@
             e.preventDefault();
         }
     });
-});*/
+
+    // Handle "Remember me" checkbox
+    // If the user previously checked "remember me", keep it checked
+    if (localStorage.getItem('rememberMe') === 'true') {
+        rememberMeCheckbox.checked = true;
+    }
+
+    // Save remember me preference to localStorage
+    form.addEventListener('submit', function () {
+        if (rememberMeCheckbox.checked) {
+            localStorage.setItem('rememberMe', 'true');
+        } else {
+            localStorage.removeItem('rememberMe');
+        }
+    });
+});
