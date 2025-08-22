@@ -1,0 +1,29 @@
+{
+  "selectedAuthType": "qwen-oauth",
+  "theme": "ANSI",
+  "preferredEditor": "vscode",
+  "excludeMCPServers": ["excel-stdio"],
+  "mcpServers": {
+        "serena": {
+            "command": "/home/felipillo/.local/bin/uvx",
+            "args": ["--from", "git+https://github.com/oraios/serena", "serena", "start-mcp-server", "--context", "ide-assistant"]
+        },
+        "sequential-thinking": {
+            "command": "/home/felipillo/.local/share/nvm/v22.18.0/bin/npx",
+            "args": [
+                "-y",
+                "@modelcontextprotocol/server-sequential-thinking"
+            ]
+        },
+        "context7": {
+            "httpUrl": "https://mcp.context7.com/mcp",
+            "headers": {
+                "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+            }
+        },
+        "playwright": {
+            "command": "/home/felipillo/.local/bin/uvx",
+            "args": ["mcp-playwright", "start-mcp-server", "--mode", "sse"]
+        }
+    }
+}
