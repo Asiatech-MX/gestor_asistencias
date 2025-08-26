@@ -29,9 +29,7 @@ class Empleado(models.Model):
     nombre = models.CharField(max_length=100, db_column='nombre')
     apellido_paterno = models.CharField(max_length=100, db_column='apellido_paterno')
     apellido_materno = models.CharField(max_length=100, null=True, blank=True, db_column='apellido_materno')
-    email = models.EmailField(unique=True, db_column='email')  
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.PROTECT, db_column='sucursal_id', related_name='empleados')  
-    horario = models.ForeignKey(Horario, on_delete=models.PROTECT, db_column='horario_id', related_name='empleados')  
+    email = models.EmailField(unique=True, null=True, blank=True, db_column='email')  
     tiene_horario_asignado = models.BooleanField(default=False, db_column='tiene_horario_asignado')
     # Relación con usuario de Django
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)

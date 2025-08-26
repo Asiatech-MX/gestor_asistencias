@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import  login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .services import autenticar_usuario
+from .services import autenticar_usuario, crear_empleado_service
 from django.contrib import messages
 from .models import Sucursal, Horario
 
@@ -40,9 +40,11 @@ def login_view(request):
 @login_required
 def admin_page(request):
     return render(request, "admin_inicio.html")
+
 @login_required
 def manager_page(request):
     return render(request, "manager_inicio.html")
+
 @login_required
 def gestion_empleados(request):
     sucursales = Sucursal.objects.all()
@@ -51,3 +53,17 @@ def gestion_empleados(request):
         "sucursales": sucursales,
         "horarios": horarios,
     })
+
+@login_required
+def crear_empleado(request):
+    if request.method == "POST":
+        data = request.POST
+        try:
+            crear_empleado_service(data)
+            messages.success(request, "Empleado creado correctamente.")
+        except Exception as e:
+            messages.error(request, "Error al crear empleado.")
+        # Redirige después del POST para evitar resubmit
+        return redirect('admin-gestion-empleados') 
+
+    return render(request, "gestion_empleados.html")

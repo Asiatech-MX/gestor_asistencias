@@ -117,70 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('horaEntrada').focus();
   });
 
-  // Formulario para agregar nuevo horario
-  scheduleForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const horaEntrada = document.getElementById('horaEntrada').value;
-    const horaSalida = document.getElementById('horaSalida').value;
-    const cruzaNoche = document.querySelector('input[name="cruzaNoche"]:checked').value;
-    const descripcion = document.getElementById('descripcionHorario').value;
-
-    const entradaFormatted = formatScheduleTime(horaEntrada);
-    const salidaFormatted = formatScheduleTime(horaSalida);
-    let horarioTexto = `${entradaFormatted} a ${salidaFormatted}`;
-    
-    if (descripcion) {
-      horarioTexto += ` (${descripcion})`;
-    }
-    
-    if (cruzaNoche === 'si') {
-      horarioTexto += ' 🌙';
-    }
-    
-    const horarioSelect = document.getElementById('horario');
-    const option = document.createElement('option');
-    option.value = horarioTexto;
-    option.textContent = horarioTexto;
-    horarioSelect.appendChild(option);
-    
-    horarioSelect.value = horarioTexto;
-    scheduleModal.style.display = 'none';
-    alert('Horario agregado correctamente');
-  });
-
-  // Evento para cancelar agregar horario
-  cancelAddSchedule.addEventListener('click', function() {
-    scheduleModal.style.display = 'none';
-  });
-
-  // Formulario principal de empleados
-  form.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const newEmp = {
-      id: document.getElementById('employeeId').value || Date.now().toString(),
-      codigoFrappe: document.getElementById('codigoFrappe').value,
-      codigoChecador: document.getElementById('codigoChecador').value,
-      nombre: document.getElementById('nombre').value,
-      primerApellido: document.getElementById('primerApellido').value,
-      segundoApellido: document.getElementById('segundoApellido').value,
-      email: document.getElementById('email').value,
-      sucursal: document.getElementById('sucursal').value,
-      horario: document.getElementById('horario').value
-    };
-
-    if (editIndex !== null) {
-      employees[editIndex] = newEmp;
-    } else {
-      employees.push(newEmp);
-    }
-    
-    renderTable();
-    modal.style.display = 'none';
-    form.reset();
-  });
-
+  
   // Botón limpiar tabla
   btnClear.addEventListener('click', () => {
     if (confirm('¿Desea limpiar toda la tabla?')) { 
