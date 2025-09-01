@@ -11,4 +11,6 @@ urlpatterns = [
     path("manager-page/", views.manager_page, name="manager-page"),
     path("admin-gestion-empleados/", views.gestion_empleados, name="admin-gestion-empleados"),
     path("empleados/crear/", views.crear_empleado, name="guardar_empleado"),
+    path("empleados/eliminar/<int:empleado_id>/", views.eliminar_empleado, name="eliminar-empleado"),
+    path("empleados/crear-horario/", views.crear_horario, name="crear_horario"),
 ]

@@ -42,3 +42,31 @@ def crear_empleado_service(data):
             hora_salida_especifica_cruza_medianoche=horario.cruza_medianoche
         )
     return empleado
+
+def listar_empleados():
+
+    empleados = Empleado.objects.select_related(
+        'empleado', 'sucursal', 'horario'
+    ).all()
+
+    # Creamos una lista de diccionarios para usar en el template
+    lista_empleados = []
+    for a in empleados:
+        lista_empleados.append({
+            'empleado_id': a.empleado.empleado_id,
+            'nombre': a.empleado.nombre,
+            'apellido_paterno': a.empleado.apellido_paterno,
+            'apellido_materno': a.empleado.apellido_materno,
+            'email': a.empleado.email,
+            'codigo_frappe': a.empleado.codigo_frappe,
+            'codigo_checador': a.empleado.codigo_checador
+        })
+    return lista_empleados
+
+def crear_horario_service(data):
+    return Horario.objects.create(
+        hora_entrada=data.get("horaEntrada"),
+        hora_salida=data.get("horaSalida"),
+        cruza_medianoche=True if data.get("cruzaNoche") == "si" else False,
+        descripcion_horario=data.get("descripcionHorario") or ""
+    )

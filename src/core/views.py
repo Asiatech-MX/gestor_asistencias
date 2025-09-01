@@ -1,10 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import  login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
-from .services import autenticar_usuario, crear_empleado_service
+from .services import autenticar_usuario, crear_empleado_service, crear_horario_service
 from django.contrib import messages
-from .models import Sucursal, Horario
+from .models import Sucursal, Horario, Empleado, AsignacionHorario
 
 def inicio(request):
     return render(request, 'login.html')
@@ -47,9 +47,11 @@ def manager_page(request):
 
 @login_required
 def gestion_empleados(request):
+    empleados = Empleado.objects.all()
     sucursales = Sucursal.objects.all()
     horarios = Horario.objects.all()
     return render(request, "gestion_empleados.html", {
+        "empleados": empleados,
         "sucursales": sucursales,
         "horarios": horarios,
     })
@@ -67,3 +69,17 @@ def crear_empleado(request):
         return redirect('admin-gestion-empleados') 
 
     return render(request, "gestion_empleados.html")
+
+@login_required
+def eliminar_empleado(request, empleado_id):
+    empleado = get_object_or_404(Empleado, empleado_id=empleado_id)
+    empleado.delete()
+    return redirect("admin-gestion-empleados")
+
+@login_required
+def crear_horario(request):
+    if request.method == "POST":
+        crear_horario_service(request.POST)
+        messages.success(request, "Horario creado correctamente")
+        return redirect("admin-gestion-empleados")  # ajusta a tu URL de lista
+    return render(request, "admin-gestion-empleados")

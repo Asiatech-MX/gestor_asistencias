@@ -56,7 +56,7 @@
           <i class="fas fa-laptop-code"></i>
           <span>Asiatech</span>
         </div>
-        <h1>Gestión de Empleados</h1>
+        <h1>Gestion de Empleados</h1>
         <div class="header-actions">
           <button id="btnExportExcel" class="btn btn-success">
             <i class="fas fa-file-excel"></i> Exportar Excel
@@ -77,20 +77,45 @@
           <thead>
             <tr>
               <th>ID</th>
+              <th>Código Frappe</th>
+              <th>Código Checador</th>
               <th>Nombre</th>
               <th>Apellidos</th>
               <th>Email</th>
-              <th>Sucursal</th>
-              <th>Horario</th>
-              <th>Código Frappe</th>
-              <th>Código Checador</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody id="employeeTableBody">
-            <tr>
-              <td colspan="9" style="text-align: center">No hay datos</td>
-            </tr>
+            {% if empleados %}
+              {% for emp in empleados %}
+                <tr>
+                  <td>{{ emp.empleado_id }}</td>
+                  <td>{{ emp.codigo_frappe }}</td>
+                  <td>{{ emp.codigo_checador }}</td>
+                  <td>{{ emp.nombre }}</td>
+                  <td>{{ emp.apellido_paterno }} {{ emp.apellido_materno }}</td>
+                  <td>{{ emp.email }}</td>
+                  <td class="actions">
+                    <!-- Botón editar -->
+                    <a href="" 
+                      class="btn btn-success btn-sm">
+                      <i class="fas fa-edit"></i>
+                    </a>
+                    
+                    <!-- Botón eliminar -->
+                      <a href="{% url 'eliminar-empleado' emp.empleado_id %}" 
+                        class="btn btn-danger"
+                        onclick="return confirm('¿Estás seguro de que deseas eliminar este empleado?');">
+                        <i class="fas fa-trash"></i>
+                      </a>
+                  </td>
+                </tr>
+              {% endfor %}
+            {% else %}
+              <tr>
+                <td colspan="9" style="text-align: center">No hay datos</td>
+              </tr>
+            {% endif %}
           </tbody>
         </table>
       </div>
@@ -110,9 +135,6 @@
     </button>
     <button id="btnImport" class="btn-import">
       <i class="fas fa-file-import"></i>
-    </button>
-    <button id="btnClear" class="btn-clear">
-      <i class="fas fa-broom"></i>
     </button>
 
     <!-- MODAL AGREGAR/EDITAR EMPLEADO ------------------------------------------------------------------------------------------------------->
@@ -210,15 +232,16 @@
       <div class="modal-content small">
         <span class="close">&times;</span>
         <h2>Agregar Horario</h2>
-        <form id="scheduleForm">
+        <form id="scheduleForm" method="post" action="{% url 'crear_horario' %}">
+          {% csrf_token %}
           <div class="form-row">
             <div class="form-group">
               <label for="horaEntrada">Hora de entrada*</label>
-              <input type="time" id="horaEntrada" required />
+              <input type="time" id="horaEntrada" name="horaEntrada" required />
             </div>
             <div class="form-group">
               <label for="horaSalida">Hora de salida*</label>
-              <input type="time" id="horaSalida" required />
+              <input type="time" id="horaSalida" name="horaSalida" required />
             </div>
           </div>
           <div class="form-row">
@@ -235,7 +258,7 @@
           <div class="form-row">
             <div class="form-group">
               <label for="descripcionHorario">Descripción (opcional)</label>
-              <input type="text" id="descripcionHorario" />
+              <input type="text" id="descripcionHorario" name="descripcionHorario" />
             </div>
           </div>
           <div class="form-actions">
@@ -250,21 +273,6 @@
       </div>
     </div>
 
-    <!-- MODAL CONFIRMAR ELIMINACIÓN -->
-    <div id="confirmModal" class="modal">
-      <div class="modal-content small">
-        <h2>Confirmar Eliminación</h2>
-        <p>¿Estás seguro de que deseas eliminar este empleado?</p>
-        <div class="form-actions">
-          <button id="confirmDelete" class="btn btn-danger">
-            <i class="fas fa-trash-alt"></i> Eliminar
-          </button>
-          <button id="cancelDelete" class="btn btn-cancel">
-            <i class="fas fa-times"></i> Cancelar
-          </button>
-        </div>
-      </div>
-    </div>
     <!-- Agregar estas líneas antes de tus scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>

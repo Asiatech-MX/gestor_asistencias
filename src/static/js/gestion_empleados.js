@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let editIndex = null;
 
   // Renderizar la tabla de empleados
-  function renderTable() {
+ /* function renderTable() {
     tbody.innerHTML = '';
     if (employees.length === 0) {
       tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">No hay datos</td></tr>';
@@ -46,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         </td>
       `;
       tbody.appendChild(tr);
-    });
+    });*/
 
     // Eventos para botones de editar
-    document.querySelectorAll('.btn-edit').forEach(btn => {
+    /*document.querySelectorAll('.btn-edit').forEach(btn => {
       btn.addEventListener('click', () => {
         editIndex = btn.dataset.index;
         const emp = employees[editIndex];
@@ -75,14 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         renderTable();
       });
     });
-  }
-
-  // Función para actualizar automáticamente la tabla
-  function autoRefreshTable() {
-    setInterval(() => {
-      renderTable();
-    }, 30000); // Actualiza cada 30 segundos
-  }
+  }*/
 
   // Eventos para el modal principal de empleados
   btnAdd.addEventListener('click', () => {
@@ -119,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   
   // Botón limpiar tabla
-  btnClear.addEventListener('click', () => {
+  /*btnClear.addEventListener('click', () => {
     if (confirm('¿Desea limpiar toda la tabla?')) { 
       employees = []; 
       renderTable(); 
     }
-  });
+  });*/
 
   // Botón importar desde Excel
   btnImport.addEventListener('click', () => {
@@ -170,4 +163,5 @@ document.addEventListener('DOMContentLoaded', () => {
   // Inicialización
   renderTable();
   autoRefreshTable();
-});
+}
+);
