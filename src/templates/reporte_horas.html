@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Reporte de Horas por Sucursal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/menurh.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reporte_horas.css' %}">
+    <link rel="icon" href="../img/logo.png" type="image/png" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <meta name="description" content="Sistema de reporte de horas por sucursal">
+</head>
+<body>
+    <header class="top-navbar">
+        <div class="logo">
+            <h1>Recursos Humanos</h1>
+        </div>
+        <div class="user-menu">
+              <a href="{% url 'logout' %}" id="logoutBtn" class="user-btn" title="Cerrar sesión" aria-label="Cerrar sesión">
+                    <i class="fas fa-sign-out-alt"></i>
+              </a>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <aside class="sidebar">
+            <nav aria-label="Menú principal">
+                <div class="menu-section">
+                    <h3 class="section-title">REPORTES</h3>
+                    <ul class="main-menu">
+                        <li class="menu-item">
+                            <a href="{% url 'reporte_horas' %}">
+                                <i class="fas fa-file-alt"></i>
+                                <span>Reporte de Horas</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{% url 'lista_asistencias' %}">
+                                <i class="fas fa-user-check"></i>
+                                <span>Reporte de Asistencias</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="menu-section">
+                    <h3 class="section-title">PANEL DE GRÁFICAS</h3>
+                    <ul class="main-menu">
+                        <li class="menu-item">
+                            <a href="#">
+                                <i class="fas fa-globe"></i>
+                                <span>General</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>31pte</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Villas</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Nave</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="#">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Río Blanco</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+<!-- Contenido principal -->
+        <main class="report-container" role="main" aria-label="Reporte de horas trabajadas por sucursal">
+            <section class="header">
+                <h1>Reporte de Horas por Sucursal</h1>
+            </section>
+
+            <section class="filter-section" aria-label="Filtros de reporte">
+                <div class="filter-group">
+                    <label for="sucursal">Seleccionar Sucursal</label>
+                    <select id="sucursal" aria-required="true" aria-invalid="false" tabindex="0">
+                        <option value="" disabled selected>Seleccione una sucursal</option>
+                        <option value="31pte">31 Poniente</option>
+                        <option value="villas">Villas</option>
+                        <option value="nave">Nave</option>
+                        <option value="rioblanco">Rio Blanco</option>
+                        <option value="all">Todas las Sucursales</option>
+                    </select>
+                </div>
+
+                <div class="btn-group" role="group" aria-label="Acciones">
+                    <button id="descargarBtn" class="btn btn-success" type="button" aria-label="Descargar reporte Excel">
+                        <i class="bi bi-download" aria-hidden="true"></i> Descargar Excel
+                    </button>
+                </div>
+            </section>
+
+            <section class="table-container" role="region" aria-live="polite" aria-relevant="all" tabindex="0">
+                <table id="reporteTable" aria-labeledby="table-desc" role="table">
+                    <caption id="table-desc" class="visually-hidden">Tabla con registros de horas trabajadas</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">No. Emp.</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Unidad Laboral</th>
+                            <th scope="col">Fecha Horas Generadas</th>
+                            <th scope="col">Motivo</th>
+                            <th scope="col">Responsable</th>
+                            <th scope="col">Horas Generadas</th>
+                            <th scope="col">Fechas Tomadas</th>
+                            <th scope="col">Horas Tomadas</th>
+                            <th scope="col">Restante</th>
+                            <th scope="col">Última Actualización</th>
+                            <th scope="col">Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reporteBody">
+                        </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Función para verificar sesión
+        /*function checkSession() {
+            const sesionIniciada = localStorage.getItem("sesion");
+            if (!sesionIniciada) {
+                window.location.href = "../html/iniciar_sesion.html";
+            }
+        }
+
+        // Función para manejar el cierre de sesión
+        function setupLogout() {
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem("sesion");
+                    window.location.href = "../html/iniciar_sesion.html";
+                }
+            });
+        }*/
+
+        // Desactivar caché
+        if (window.history && window.history.pushState) {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function() {
+                window.history.go(1);
+            };
+        }
+
+        // Inicialización
+        window.addEventListener('DOMContentLoaded', function() {
+            checkSession();
+            setupLogout();
+        });
+    </script>
+    
+    <script src="{% static 'js/reporte_horas.js' %}"></script>
+</body>
+</html>
